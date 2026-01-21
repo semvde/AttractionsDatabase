@@ -1,24 +1,18 @@
 import {Router} from "express";
-import Ride from "../models/Ride.js";
+import Area from "../models/Area.js";
 import {faker} from "@faker-js/faker/locale/nl";
 
 const router = Router();
 
-// GET rides collection
+// GET areas collection
 router.get('/', async (req, res) => {
-    // Setup filtering
-    const filters = {};
-    if (req.query.category) {
-        filters.category = req.query.category;
-    }
-
     // Get page and limit values from URI params
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const limit = req.query.limit ? Math.max(parseInt(req.query.limit), 1) : null;
-    const totalItems = await Ride.countDocuments(filters);
+    const totalItems = await Area.countDocuments();
 
     // Setup default query and counts
-    let query = Ride.find(filters, '-description').populate('area');
+    let query = Area.find({});
 
     let totalPages = 1;
     let currentItems = totalItems;
@@ -34,22 +28,21 @@ router.get('/', async (req, res) => {
     }
 
     // Execute query (normal query or paginated query, based on of above if-statement did its thing)
-    const rides = await query.exec();
-    currentItems = rides.length;
+    const areas = await query.exec();
+    currentItems = areas.length;
 
-    // Function for constructing URI's with page, limit and filter params
+    // Function for constructing URI's with page and limit params
     const buildURI = (p) => {
         const params = new URLSearchParams();
 
         if (limit) params.append('limit', limit.toString());
         if (limit) params.append('page', p);
-        if (req.query.category) params.append('category', req.query.category);
 
-        return `${process.env.BASE_URI}/rides${limit || req.query.category ? '?' : ''}${params.toString()}`;
+        return `${process.env.BASE_URI}/areas${limit || req.query.category ? '?' : ''}${params.toString()}`;
     };
 
     const collection = {
-        items: rides,
+        items: areas,
         pagination: {
             currentPage: page,
             currentItems: currentItems,
@@ -77,7 +70,7 @@ router.get('/', async (req, res) => {
                 href: buildURI(page)
             },
             collection: {
-                href: `${process.env.BASE_URI}/rides`
+                href: `${process.env.BASE_URI}/areas`
             }
         }
     }
@@ -85,52 +78,46 @@ router.get('/', async (req, res) => {
     res.json(collection);
 });
 
-// POST new rides to collection (seeding)
+// POST new areas to collection (seeding)
 router.post('/', async (req, res, next) => {
     if (req.body?.method && req.body.method === "SEED") {
         if (req.body?.reset ?? "true" === "true") {
-            await Ride.deleteMany({});
+            await Area.deleteMany({});
         }
 
         const amount = req.body?.amount ?? 10;
 
-        const rides = [];
+        const areas = [];
 
         for (let i = 0; i < amount; i++) {
-            const ride = Ride({
+            const area = Area({
                 name: faker.lorem.sentence(3),
-                category: faker.vehicle.vehicle(),
-                description: faker.lorem.paragraph(),
-                area: null
             });
 
-            rides.push(ride);
-            await ride.save();
+            areas.push(area);
+            await area.save();
         }
 
-        res.status(201).json(rides);
+        res.status(201).json(areas);
     } else {
         // If method was not SEED, do normal POST
         next();
     }
 });
 
-// POST new ride to collection (singular)
+// POST new area to collection (singular)
 router.post('/', async (req, res) => {
-    if (req.body?.name && req.body?.category && req.body?.description) {
-        const ride = Ride({
+    if (req.body?.name) {
+        const area = Area({
             name: req.body.name,
-            category: req.body.category,
-            description: req.body.description,
-            area: req.body.area || null
 
         });
-        await ride.save();
+        await area.save();
 
-        res.status(201).json(ride);
+        res.status(201).json(area);
     } else {
         res.status(422).json({
-            message: 'Body should contain a name, category and description'
+            message: 'Body should contain a name'
         });
     }
 });
@@ -143,45 +130,42 @@ router.options('/', (req, res) => {
         .status(204).send();
 })
 
-// GET specific ride
+// GET specific area
 router.get('/:id', async (req, res) => {
-    const rideId = req.params.id;
+    const areaId = req.params.id;
 
     try {
-        const ride = await Ride.findById(rideId);
+        const area = await Area.findById(areaId);
 
-        if (ride) {
-            res.json(ride);
+        if (area) {
+            res.json(area);
         } else {
             res.status(404).json({
-                message: 'Ride not found'
+                message: 'Area not found'
             });
         }
     } catch (e) {
         res.status(404).json({
-            message: 'Ride not found'
+            message: 'Area not found'
         });
     }
 });
 
-// PUT changes on specific ride
+// PUT changes on specific area
 router.put('/:id', async (req, res) => {
-    const rideId = req.params.id;
+    const areaId = req.params.id;
 
-    if (!req.body?.name || !req.body?.category || !req.body?.description) {
+    if (!req.body?.name) {
         return res.status(422).json({
-            message: 'Body should contain a name, category and description'
+            message: 'Body should contain a name'
         });
     }
 
     try {
-        const ride = await Ride.findByIdAndUpdate(
-            rideId,
+        const area = await Area.findByIdAndUpdate(
+            areaId,
             {
                 name: req.body.name,
-                category: req.body.category,
-                description: req.body.description,
-                area: req.body.area || null
             },
             {
                 new: true,
@@ -189,40 +173,40 @@ router.put('/:id', async (req, res) => {
             }
         );
 
-        if (!ride) {
+        if (!area) {
             return res.status(404).send();
         }
 
-        res.json(ride);
+        res.json(area);
     } catch (e) {
         res.status(400).json({
-            message: 'Invalid ride id'
+            message: 'Invalid area id'
         });
     }
 });
 
-// DELETE specific ride
+// DELETE specific area
 router.delete('/:id', async (req, res) => {
-    const rideId = req.params.id;
+    const areaId = req.params.id;
 
     try {
-        const ride = await Ride.findByIdAndDelete(rideId);
+        const area = await Area.findByIdAndDelete(areaId);
 
-        if (!ride) {
+        if (!area) {
             return res.status(404).json({
-                message: 'Ride not found'
+                message: 'Area not found'
             });
         }
 
         res.status(204).send();
     } catch (e) {
         res.status(400).json({
-            message: 'Invalid ride id'
+            message: 'Invalid area id'
         });
     }
 });
 
-// OPTIONS for the specific ride
+// OPTIONS for the specific area
 router.options('/:id', (req, res) => {
     res.header("Allow", "GET, PUT, DELETE, OPTIONS")
         .header("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS")

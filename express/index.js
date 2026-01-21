@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import ridesRouter from "./routes/ridesRouter.js"
+import areasRouter from "./routes/areasRouter.js"
 
 const app = express();
 
@@ -31,6 +32,7 @@ try {
 
     // Use my Routers
     app.use('/rides', ridesRouter);
+    app.use('/areas', areasRouter);
 } catch (e) {
     app.use((req, res) => {
         res.status(500).json({

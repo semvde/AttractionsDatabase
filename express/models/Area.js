@@ -1,13 +1,7 @@
 import mongoose from "mongoose";
 
-const rideSchema = new mongoose.Schema({
+const areaSchema = new mongoose.Schema({
         name: {type: String, required: true},
-        category: {type: String, required: true},
-        description: {type: String, required: true},
-        area: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Area"
-        }
     },
     {
         timestamps: true,
@@ -17,10 +11,10 @@ const rideSchema = new mongoose.Schema({
             transform: (doc, ret) => {
                 ret._links = {
                     self: {
-                        href: `${process.env.BASE_URI}/rides/${ret._id}`,
+                        href: `${process.env.BASE_URI}/areas/${ret._id}`,
                     },
                     collection: {
-                        href: `${process.env.BASE_URI}/rides`,
+                        href: `${process.env.BASE_URI}/areas`,
                     },
                 };
 
@@ -29,6 +23,6 @@ const rideSchema = new mongoose.Schema({
         },
     });
 
-const Ride = mongoose.model("Ride", rideSchema);
+const Area = mongoose.model("Area", areaSchema);
 
-export default Ride;
+export default Area;
