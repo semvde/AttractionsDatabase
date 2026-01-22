@@ -1,34 +1,61 @@
-import {useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {createBrowserRouter, RouterProvider} from "react-router";
+import Layout from "./Layout.jsx";
+import Error from "./pages/Error.jsx";
+import Home from "./pages/Home.jsx";
+import Rides from "./pages/Rides.jsx";
+import {AppContext} from "./Contexts.js.jsx";
+import {useEffect, useState} from "react";
+
+const router = createBrowserRouter([
+    {
+        element: <Layout/>,
+        errorElement: <Error/>,
+        children: [
+            {
+                path: "/",
+                element: <Home/>,
+            },
+            {
+                path: "/rides",
+                element: <Rides/>,
+            }
+        ],
+    },
+]);
 
 function App() {
-    const [count, setCount] = useState(0)
+    const [rides, setRides] = useState([]);
+
+    const [pagination, setPagination] = useState([]);
+    const [page, setPage] = useState(1);
+
+    const getRides = async () => {
+        try {
+            const response = await fetch(`http://145.24.237.153:8000/rides?limit=6&page=${page}`, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await response.json();
+            console.log(data.items);
+            setRides(data.items);
+            setPagination(data.pagination);
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
+
+    useEffect(() => {
+        getRides();
+    }, []);
 
     return (
-        <>
-            <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo"/>
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo"/>
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.jsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
+        <AppContext value={{rides, setRides, page, setPage, pagination, setPagination}}>
+            <RouterProvider router={router}/>
+        </AppContext>
+    );
 }
 
 export default App
