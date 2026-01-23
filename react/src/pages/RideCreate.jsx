@@ -47,7 +47,7 @@ function RideCreate() {
     return (
         <section className={"flex flex-col text-center py-10"}>
             <h1 className={"text-5xl font-bold"}>New Attraction</h1>
-            <p className={"text-xl capitalize"}>Create a new attraction here!</p>
+            <p className={"text-xl"}>Create a new attraction here!</p>
 
             <form onSubmit={handleSubmit} className={"flex flex-col gap-4 mt-8"}>
                 <input

@@ -4,12 +4,21 @@ import {faker} from "@faker-js/faker/locale/nl";
 
 const router = Router();
 
+const escapeRegex = (text) =>
+    text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 // GET rides collection
 router.get('/', async (req, res) => {
     // Setup filtering
     const filters = {};
-    if (req.query.category) {
-        filters.category = req.query.category;
+    if (req.query.name) {
+        filters.name = {
+            $regex: escapeRegex(req.query.name),
+            $options: 'i'
+        };
+    }
+    if (req.query.area) {
+        filters.area = req.query.area;
     }
 
     // Get page and limit values from URI params

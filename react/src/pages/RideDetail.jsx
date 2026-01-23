@@ -3,7 +3,7 @@ import {Link, useNavigate, useParams} from "react-router";
 import {AppContext} from "../Contexts.js.jsx";
 
 function RideDetail() {
-    const {setRides} = useContext(AppContext);
+    const {getRides} = useContext(AppContext);
     const params = useParams();
     const navigate = useNavigate();
 
@@ -17,6 +17,11 @@ function RideDetail() {
                     "Accept": "application/json"
                 }
             });
+
+            if (!response.ok) {
+                navigate("/404", {replace: true});
+                return;
+            }
 
             const data = await response.json();
             console.log(data);
@@ -36,9 +41,7 @@ function RideDetail() {
                 }
             });
 
-            setRides(prev =>
-                prev.filter(r => r.id !== ride.id)
-            );
+            await getRides();
 
             navigate('/rides');
         } catch (e) {

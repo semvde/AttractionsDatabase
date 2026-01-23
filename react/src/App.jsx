@@ -45,9 +45,14 @@ function App() {
     const [pagination, setPagination] = useState({totalPages: 1});
     const [page, setPage] = useState(1);
 
+    const [filters, setFilters] = useState({
+        name: "",
+        area: ""
+    });
+
     const getRides = async () => {
         try {
-            const response = await fetch(`http://145.24.237.153:8000/rides?limit=6&page=${page}`, {
+            const response = await fetch(`http://145.24.237.153:8000/rides?limit=6&page=${page}&name=${filters.name}&area=${filters.area}`, {
                 method: "GET",
                 headers: {
                     "Accept": "application/json"
@@ -78,14 +83,26 @@ function App() {
 
     useEffect(() => {
         getRides();
-    }, [page]);
+    }, [page, filters]);
 
     useEffect(() => {
         getAreas();
     }, []);
 
     return (
-        <AppContext value={{rides, getRides, setRides, areas, setAreas, page, setPage, pagination, setPagination}}>
+        <AppContext value={{
+            rides,
+            getRides,
+            setRides,
+            areas,
+            setAreas,
+            page,
+            setPage,
+            pagination,
+            setPagination,
+            filters,
+            setFilters
+        }}>
             <RouterProvider router={router}/>
         </AppContext>
     );

@@ -72,7 +72,7 @@ function RideEdit() {
     return (
         <section className={"flex flex-col text-center py-10"}>
             <h1 className={"text-5xl font-bold"}>Edit {form.name}</h1>
-            <p className={"text-xl capitalize"}>Made a mistake? Correct it here!</p>
+            <p className={"text-xl"}>Made a mistake? Correct it here!</p>
 
             <form onSubmit={handleSubmit} className={"flex flex-col gap-4 mt-8"}>
                 <input
