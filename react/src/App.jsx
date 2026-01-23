@@ -26,7 +26,7 @@ const router = createBrowserRouter([
 function App() {
     const [rides, setRides] = useState([]);
 
-    const [pagination, setPagination] = useState([]);
+    const [pagination, setPagination] = useState({totalPages: 1});
     const [page, setPage] = useState(1);
 
     const getRides = async () => {
@@ -49,7 +49,7 @@ function App() {
 
     useEffect(() => {
         getRides();
-    }, []);
+    }, [page]);
 
     return (
         <AppContext value={{rides, setRides, page, setPage, pagination, setPagination}}>

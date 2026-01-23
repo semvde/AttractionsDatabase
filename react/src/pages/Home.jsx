@@ -13,6 +13,9 @@ function Home() {
                         areas</Link>
                 </div>
             </section>
+            <section>
+                <h2 className={"text-3xl"}></h2>
+            </section>
         </>
     );
 }
