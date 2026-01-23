@@ -148,7 +148,7 @@ router.get('/:id', async (req, res) => {
     const rideId = req.params.id;
 
     try {
-        const ride = await Ride.findById(rideId);
+        const ride = await Ride.findById(rideId).populate('area');
 
         if (!ride) {
             return res.status(404).json({

@@ -28,7 +28,7 @@ function Rides() {
                     }
                 </div>
             </section>
-            <section className={"flex flex-1 justify-between"}>
+            <section className={"flex flex-1 justify-between pb-10"}>
                 <button onClick={previousPage} disabled={page === 1}
                         className={"text-white bg-(--color-primary) rounded cursor-pointer px-3 py-1.5 disabled:text-(--color-text) disabled:bg-transparent disabled:border disabled:cursor-not-allowed"}>«
                     Previous

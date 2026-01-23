@@ -1,10 +1,11 @@
+import {useEffect, useState} from "react";
 import {createBrowserRouter, RouterProvider} from "react-router";
+import {AppContext} from "./Contexts.js.jsx";
 import Layout from "./Layout.jsx";
 import Error from "./pages/Error.jsx";
 import Home from "./pages/Home.jsx";
 import Rides from "./pages/Rides.jsx";
-import {AppContext} from "./Contexts.js.jsx";
-import {useEffect, useState} from "react";
+import RideDetail from "./pages/RideDetail.jsx";
 
 const router = createBrowserRouter([
     {
@@ -13,12 +14,20 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home/>,
+                element: <Home/>
             },
             {
                 path: "/rides",
-                element: <Rides/>,
-            }
+                element: <Rides/>
+            },
+            {
+                path: "/rides/:id",
+                element: <RideDetail/>
+            },
+            // {
+            //     path: "/rides/:id/edit",
+            //     element: <RideEdit/>
+            // }
         ],
     },
 ]);

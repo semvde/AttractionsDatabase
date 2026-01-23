@@ -12,7 +12,7 @@ function Layout() {
                 <Outlet/>
             </main>
             <footer className={"flex justify-center bg-(--color-text) text-white p-5"}>
-                &copy; Copyright 2026 Semmetje
+                &copy; Copyright {new Date().getFullYear()} Semmetje
             </footer>
         </>
     );
