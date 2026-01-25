@@ -27,7 +27,7 @@ All theme park attractions, one place!
     </ol>
 </details>
 
-[![Semmetje11lolly](https://img.shields.io/badge/-Semmetje11lolly-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Semmetje11lolly)
+[![semvde](https://img.shields.io/badge/-semvde-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/semvde)
 
 
 
