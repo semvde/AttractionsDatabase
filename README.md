@@ -32,7 +32,7 @@ All theme park attractions, one place!
 
 
 ## :information_source: About this project
-AttractionsDatabase is a place where theme park fans can find information on all sorts of rides from attractions all around the world! If a ride does not exist in the database yet, it can easily be added!
+AttractionsDatabase is a place where theme park fans can find information on all sorts of rides from theme parks all around the world! If a ride does not exist in the database yet, it can easily be added!
 
 This project was created for the final assignment of the course Programming 6 at Rotterdam University of Applied Sciences. The goal of the course was to build a full-stack website with React for the frond-end and Express for the back-end.
 
@@ -55,6 +55,7 @@ Below are the instructions on how to get the project running on your local machi
 ### Requirements
 - Node.js & NPM
 - MongoDB
+- (Recommended) A REST client like Postman)
 
 ### Installation
 1. Clone the repository
