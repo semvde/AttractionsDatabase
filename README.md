@@ -55,7 +55,7 @@ Below are the instructions on how to get the project running on your local machi
 ### Requirements
 - Node.js & NPM
 - MongoDB
-- (Recommended) A REST client like Postman)
+- (Recommended) A REST client like Postman
 
 ### Installation
 1. Clone the repository
@@ -78,7 +78,8 @@ EXPRESS_PORT=8000
 
 MONGO_DB_URI="mongodb://127.0.0.1:27017/rides"
 ```
-- (!) Make sure [MongoDB is running](https://www.mongodb.com/docs/manual/administration/install-community/?operating-system=windows&windows-installation-method=wizard) for the database to work!
+> [!IMPORTANT]  
+> Make sure [MongoDB is running](https://www.mongodb.com/docs/manual/administration/install-community/?operating-system=windows&windows-installation-method=wizard) for the database to work!
 
 3. Setup local test server
 ```sh
