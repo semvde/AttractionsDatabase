@@ -255,7 +255,7 @@ router.delete('/:id', async (req, res) => {
 router.options('/:id', (req, res) => {
     res.header("Allow", "GET, PUT, DELETE, OPTIONS")
         .header("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS")
-        .header("Access-Control-Allow-Headers", "Accept, Content-Type")
+        .header("Access-Control-Allow-Headers", "Accept, Content-Type, If-Modified-Since")
         .status(204).send();
 })
 
